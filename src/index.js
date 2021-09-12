@@ -1,4 +1,4 @@
-export default ({ enableWebgl = false, debug = false } = {}) => {
+export const getFingerprintData = ({ enableWebgl = false, debug = false } = {}) => {
     let { devicePixelRatio } = window;
     // weird behaviour when getting value from localhost vs ip!!!
     devicePixelRatio = +parseInt(devicePixelRatio);
@@ -72,9 +72,14 @@ export default ({ enableWebgl = false, debug = false } = {}) => {
 
     if (debug) console.log('fingerprint data', datastring);
 
+    return datastring;
+}
+
+export const getFingerprint = ({ enableWebgl = false, debug = false } = {}) => {
+    const datastring = getFingerprintData({ enableWebgl: enableWebgl, debug: debug })
     const result = murmurhash3_32_gc(datastring);
     return result;
-};
+}
 
 export const getCanvasID = (debug) => {
     try {
