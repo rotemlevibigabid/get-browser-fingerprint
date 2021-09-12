@@ -113,12 +113,18 @@ export const getCanvasID = (debug) => {
 export const getWebglID = (debug) => {
     try {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('webgl');
+        const ctx = canvas.getContext("experimental-webgl") || canvas.getContext("webgl");
         canvas.width = 256;
         canvas.height = 128;
 
         const f = 'attribute vec2 attrVertex;varying vec2 varyinTexCoordinate;uniform vec2 uniformOffset;void main(){varyinTexCoordinate=attrVertex+uniformOffset;gl_Position=vec4(attrVertex,0,1);}';
         const g = 'precision mediump float;varying vec2 varyinTexCoordinate;void main() {gl_FragColor=vec4(varyinTexCoordinate,0,1);}';
+
+        const getSupportedExtensions = ctx.getSupportedExtensions();
+        
+        const ext = ctx.getExtension("WEBGL_debug_renderer_info");
+        const urwgl = ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+
         const h = ctx.createBuffer();
 
         ctx.bindBuffer(ctx.ARRAY_BUFFER, h);
@@ -240,3 +246,5 @@ export const murmurhash3_32_gc = (key) => {
 
     return h1 >>> 0;
 };
+
+
