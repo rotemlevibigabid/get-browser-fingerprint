@@ -8,6 +8,7 @@
 
             const t0 = performance.now();
             const fingerprint = getFingerprint({ debug: true });
+            const fingerprint = getFingerprintData({ debug: true });
             const t1 = performance.now();
 
             const result = `Fingerprint: ${fingerprint} (in ${(t1 - t0).toFixed(0)} ms)`;
