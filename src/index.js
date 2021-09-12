@@ -77,8 +77,7 @@ export const getFingerprintData = ({ enableWebgl = true, debug = false } = {}) =
 
 export const getFingerprint = ({ enableWebgl = true, debug = false } = {}) => {
     const datastring = getFingerprintData({ enableWebgl: enableWebgl, debug: debug })
-    const result = murmurhash3_32_gc(datastring);
-    return result;
+    return murmurhash3_32_gc(datastring);
 }
 
 export const getCanvasID = (debug) => {
