@@ -119,12 +119,7 @@ export const getWebglID = (debug) => {
 
         const f = 'attribute vec2 attrVertex;varying vec2 varyinTexCoordinate;uniform vec2 uniformOffset;void main(){varyinTexCoordinate=attrVertex+uniformOffset;gl_Position=vec4(attrVertex,0,1);}';
         const g = 'precision mediump float;varying vec2 varyinTexCoordinate;void main() {gl_FragColor=vec4(varyinTexCoordinate,0,1);}';
-
-        const getSupportedExtensions = ctx.getSupportedExtensions();
-        
-        const ext = ctx.getExtension("WEBGL_debug_renderer_info");
-        const urwgl = ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL);
-
+ 
         const h = ctx.createBuffer();
 
         ctx.bindBuffer(ctx.ARRAY_BUFFER, h);
@@ -175,11 +170,13 @@ export const getWebglID = (debug) => {
 
 export const getWebglInfo = () => {
     try {
-        const ctx = document.createElement('canvas').getContext('webgl');
-
-        const result = {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext("experimental-webgl") || canvas.getContext("webgl");
+        const ext = ctx.getExtension("WEBGL_debug_renderer_info");
+        const result = { 
             VERSION: ctx.getParameter(ctx.VERSION),
             SHADING_LANGUAGE_VERSION: ctx.getParameter(ctx.SHADING_LANGUAGE_VERSION),
+            UNMASKED_RENDERER_WEBGL: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),
             VENDOR: ctx.getParameter(ctx.VENDOR),
             SUPORTED_EXTENSIONS: ctx.getSupportedExtensions(),
         };
@@ -246,5 +243,3 @@ export const murmurhash3_32_gc = (key) => {
 
     return h1 >>> 0;
 };
-
-
